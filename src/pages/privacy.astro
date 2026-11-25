@@ -1,0 +1,56 @@
+---
+import LegalPage from '../components/LegalPage.astro';
+import site from '../config/site.config.ts';
+
+const { privacy, company } = site;
+---
+
+<LegalPage pageKey="privacy" title="Privacy Policy" lastUpdated={privacy.lastUpdated}>
+  <p>
+    This Privacy Policy explains how {privacy.entity} ("we", "us") collects, uses, and protects
+    the information you provide through this website. This is a starting template and should be
+    reviewed by the business before launch.
+  </p>
+
+  <h2>Information we collect</h2>
+  <p>
+    When you submit the contact form or email us, we collect the details you choose to share, such
+    as your name, email address, phone number, service address, and a description of your request.
+    We may also collect basic, non-identifying analytics about how the site is used.
+  </p>
+
+  <h2>How we use your information</h2>
+  <ul>
+    <li>To respond to your request and provide a quote or service.</li>
+    <li>To contact you about your inquiry or scheduled work.</li>
+    <li>To improve our website and services.</li>
+  </ul>
+
+  <h2>How we share information</h2>
+  <p>
+    We do not sell your personal information. We only share it with service providers that help us
+    operate the business (for example, email or analytics tools), and only as needed to serve you.
+  </p>
+
+  <h2>Cookies and analytics</h2>
+  <p>
+    This site may use cookies and analytics to understand traffic and improve the experience. You
+    can control cookies through your browser settings.
+  </p>
+
+  <h2>Your choices</h2>
+  <p>
+    You may request access to, correction of, or deletion of the information you have shared with us
+    by contacting us using the details below.
+  </p>
+
+  <h2>Contact</h2>
+  <p>
+    Questions about this policy? Email <a href={`mailto:${privacy.contactEmail}`}>{privacy.contactEmail}</a>.
+  </p>
+
+  <p>
+    <strong>Note:</strong> {company.name} should have this policy reviewed to confirm it reflects
+    actual practices and meets applicable requirements.
+  </p>
+</LegalPage>

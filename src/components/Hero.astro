@@ -1,0 +1,88 @@
+---
+import site from '../config/site.config.ts';
+import Figure from './Figure.astro';
+import Icon from './Icon.astro';
+
+const { hero } = site;
+---
+
+<section id="top" class="relative flex min-h-[90svh] items-center overflow-hidden bg-brand-bg">
+  <!-- Background photo (or styled fallback) + flat dark overlay -->
+  {
+    hero.backgroundImage && (
+      <div class="absolute inset-0">
+        <Figure
+          src={hero.backgroundImage}
+          alt={hero.backgroundImageAlt}
+          ratio="video"
+          class="h-full w-full"
+          sizes="100vw"
+          widths={[768, 1280, 1920]}
+          loading="eager"
+        />
+      </div>
+    )
+  }
+  <div class="absolute inset-0 bg-brand-bg/72"></div>
+
+  <!-- Faint air-flow watermark (flat, low opacity) -->
+  <svg
+    class="pointer-events-none absolute -right-10 bottom-0 h-[46rem] w-[46rem] text-brand-accent/[0.06]"
+    viewBox="0 0 200 200"
+    fill="none"
+    aria-hidden="true"
+  >
+    <path d="M10 70 q30 -24 60 0 t60 0 t60 0" stroke="currentColor" stroke-width="3" />
+    <path d="M10 100 q30 -24 60 0 t60 0 t60 0" stroke="currentColor" stroke-width="3" />
+    <path d="M10 130 q30 -24 60 0 t60 0 t60 0" stroke="currentColor" stroke-width="3" />
+  </svg>
+
+  <div class="container-x relative w-full pb-20 pt-28">
+    <div class="max-w-3xl">
+      <span class="eyebrow">{hero.eyebrow}</span>
+
+      <h1 class="heading-xl mt-6 text-brand-text">
+        {hero.headline}
+        <span class="block accent-text">{hero.headlineAccent}</span>
+      </h1>
+
+      <div class="mt-5 inline-flex items-center gap-2 border border-brand-text/15 px-3 py-1.5">
+        <Icon name="map-pin" size={15} class="text-brand-accent" />
+        <span class="text-[0.75rem] font-semibold uppercase tracking-[0.12em] text-brand-text/80">
+          {hero.locationBadge}
+        </span>
+      </div>
+
+      <p class="lead mt-6 max-w-xl text-brand-text/85">{hero.subheadline}</p>
+
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+        <a href={hero.ctaPrimary.href} class="btn btn-accent">{hero.ctaPrimary.label}</a>
+        <a href={hero.ctaSecondary.href} class="btn btn-outline" data-call-link>
+          <Icon name="phone" size={16} />
+          {hero.ctaSecondary.label}
+        </a>
+      </div>
+
+      <ul class="mt-9 flex flex-wrap gap-x-7 gap-y-3">
+        {
+          hero.badges.map((badge) => (
+            <li class="flex items-center gap-2 text-sm font-medium text-brand-text/80">
+              <Icon name="check-circle" size={18} class="text-brand-accent" />
+              {badge}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+
+  <!-- Scroll cue -->
+  <a
+    href="#services"
+    class="absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-brand-text/55 transition-colors hover:text-brand-text md:flex"
+    aria-label="Scroll to services"
+  >
+    <span class="text-[0.65rem] font-semibold uppercase tracking-[0.3em]">Scroll</span>
+    <Icon name="chevron-down" size={18} />
+  </a>
+</section>

@@ -1,0 +1,49 @@
+---
+import site from '../config/site.config.ts';
+import Icon from './Icon.astro';
+import Placeholder from './Placeholder.astro';
+
+const { serviceArea, hero } = site;
+---
+
+<section id="service-area" class="section-y bg-brand-bg-alt">
+  <div class="container-x">
+    <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+      <div class="reveal">
+        <span class="eyebrow">{serviceArea.eyebrow}</span>
+        <h2 class="heading-section mt-5 text-brand-text">{serviceArea.heading}</h2>
+        <p class="lead mt-5">{serviceArea.subheading}</p>
+
+        <ul class="mt-8 grid grid-cols-2 gap-x-6 gap-y-3 sm:grid-cols-3">
+          {
+            serviceArea.towns.map((town) => (
+              <li class="flex items-center gap-2 text-sm text-brand-text/90">
+                <Icon name="map-pin" size={15} class="shrink-0 text-brand-accent" />
+                {town}
+              </li>
+            ))
+          }
+        </ul>
+
+        {
+          serviceArea.note && (
+            <p class="mt-8 border-l-2 border-brand-accent pl-4 text-sm text-brand-muted">
+              {serviceArea.note}
+            </p>
+          )
+        }
+
+        <a href={hero.ctaPrimary.href} class="btn btn-accent mt-8">Request a Free Assessment</a>
+      </div>
+
+      <div class="reveal">
+        <Placeholder
+          label="Service-area map of Cape Cod and the South Shore"
+          icon="map-pin"
+          ratio="4/3"
+          class="w-full"
+        />
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,30 @@
+---
+import site from '../config/site.config.ts';
+import Icon from './Icon.astro';
+
+const { trustStrip } = site;
+---
+
+<section class="border-y border-brand-text/10 bg-brand-bg-alt">
+  <div class="container-x">
+    <ul class="grid grid-cols-2 divide-brand-text/10 lg:grid-cols-4 lg:divide-x">
+      {
+        trustStrip.map((item, i) => (
+          <li
+            class:list={[
+              'flex items-center gap-4 px-2 py-6 lg:px-8',
+              i < 2 ? 'border-b border-brand-text/10 lg:border-b-0' : '',
+              i % 2 === 0 ? 'border-r border-brand-text/10 lg:border-r-0' : '',
+            ]}
+          >
+            <Icon name={item.icon} size={26} class="shrink-0 text-brand-accent" />
+            <div class="leading-tight">
+              <div class="display text-xl text-brand-text sm:text-2xl">{item.value}</div>
+              <div class="text-[0.78rem] text-brand-muted">{item.label}</div>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

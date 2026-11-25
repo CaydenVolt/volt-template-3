@@ -1,0 +1,61 @@
+---
+import site from '../config/site.config.ts';
+import Figure from './Figure.astro';
+import Icon from './Icon.astro';
+import SectionHeading from './SectionHeading.astro';
+
+const { gallery } = site;
+---
+
+<section id="work" class="section-y bg-brand-bg-alt">
+  <div class="container-x">
+    <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+      <SectionHeading
+        eyebrow={gallery.eyebrow}
+        heading={gallery.heading}
+        sub={gallery.subheading}
+        class="reveal"
+      />
+      {
+        gallery.note && (
+          <p class="reveal flex max-w-xs items-center gap-2 text-sm text-brand-muted">
+            <Icon name="sparkles" size={16} class="shrink-0 text-brand-accent" />
+            {gallery.note}
+          </p>
+        )
+      }
+    </div>
+
+    <div class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        gallery.items.map((item) => (
+          <figure class="reveal group relative overflow-hidden">
+            <Figure
+              src={item.image}
+              alt={item.alt}
+              placeholderLabel={item.alt}
+              placeholderIcon="home"
+              ratio="4/3"
+              class="w-full transition-transform duration-500 group-hover:scale-[1.03]"
+              sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            />
+            {
+              item.tag && (
+                <figcaption class="absolute left-3 top-3 bg-brand-accent px-2.5 py-1 text-[0.68rem] font-bold uppercase tracking-[0.1em] text-brand-accent-text">
+                  {item.tag}
+                </figcaption>
+              )
+            }
+            {
+              item.caption && (
+                <figcaption class="absolute inset-x-0 bottom-0 bg-brand-bg/80 px-4 py-3 text-sm font-medium text-brand-text">
+                  {item.caption}
+                </figcaption>
+              )
+            }
+          </figure>
+        ))
+      }
+    </div>
+  </div>
+</section>

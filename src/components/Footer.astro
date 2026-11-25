@@ -1,0 +1,108 @@
+---
+import site from '../config/site.config.ts';
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+
+const { company, contact, nav, social, services, serviceArea } = site;
+const year = new Date().getFullYear();
+const socialIcon = (p: string) => (p === 'google' ? 'google' : p === 'instagram' ? 'instagram' : 'facebook');
+---
+
+<footer class="border-t border-brand-text/10 bg-brand-bg">
+  <div class="container-x">
+    <div class="grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-4">
+      <!-- Brand -->
+      <div class="lg:col-span-1">
+        <span class="text-brand-text"><Logo size={40} /></span>
+        <p class="mt-4 max-w-xs text-sm text-brand-muted">{company.tagline}</p>
+        <p class="mt-4 text-[0.7rem] font-bold uppercase tracking-[0.14em] text-brand-accent">
+          Local guys, doing local business
+        </p>
+        <div class="mt-5 flex gap-3">
+          {
+            social.map((s) => (
+              <a
+                href={s.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={s.platform}
+                class="flex h-10 w-10 items-center justify-center border border-brand-text/15 text-brand-text/80 transition-colors hover:border-brand-accent hover:text-brand-accent"
+              >
+                <Icon name={socialIcon(s.platform)} size={18} />
+              </a>
+            ))
+          }
+        </div>
+      </div>
+
+      <!-- Explore -->
+      <div>
+        <h3 class="text-[0.72rem] font-bold uppercase tracking-[0.16em] text-brand-muted">Explore</h3>
+        <ul class="mt-4 space-y-2.5">
+          {
+            nav.map((link) => (
+              <li>
+                <a href={link.href} class="text-sm text-brand-text/85 hover:text-brand-accent">
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <!-- Services -->
+      <div>
+        <h3 class="text-[0.72rem] font-bold uppercase tracking-[0.16em] text-brand-muted">Services</h3>
+        <ul class="mt-4 space-y-2.5">
+          {
+            services.items.slice(0, 6).map((svc) => (
+              <li>
+                <a href={`/services/${svc.slug}/`} class="text-sm text-brand-text/85 hover:text-brand-accent">
+                  {svc.name}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div>
+        <h3 class="text-[0.72rem] font-bold uppercase tracking-[0.16em] text-brand-muted">Contact</h3>
+        <ul class="mt-4 space-y-3 text-sm">
+          <li class="flex items-start gap-2.5">
+            <Icon name="phone" size={16} class="mt-0.5 shrink-0 text-brand-accent" />
+            <a href={`tel:${contact.phonePrimary.href}`} class="text-brand-text/85 hover:text-brand-accent" data-call-link>
+              {contact.phonePrimary.display}
+            </a>
+          </li>
+          <li class="flex items-start gap-2.5">
+            <Icon name="mail" size={16} class="mt-0.5 shrink-0 text-brand-accent" />
+            <a href={`mailto:${contact.email}`} class="break-all text-brand-text/85 hover:text-brand-accent">
+              {contact.email}
+            </a>
+          </li>
+          <li class="flex items-start gap-2.5">
+            <Icon name="map-pin" size={16} class="mt-0.5 shrink-0 text-brand-accent" />
+            <span class="text-brand-text/85">
+              {contact.addressLine}, {contact.city}, {contact.region} {contact.postalCode}
+            </span>
+          </li>
+        </ul>
+        <p class="mt-4 text-xs text-brand-muted">
+          Serving {serviceArea.towns.slice(0, 6).join(', ')} and the surrounding Cape and South Shore.
+        </p>
+      </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="flex flex-col gap-3 border-t border-brand-text/10 py-6 text-sm text-brand-muted sm:flex-row sm:items-center sm:justify-between">
+      <p>&copy; {year} {company.name}. All rights reserved.</p>
+      <div class="flex gap-5">
+        <a href="/privacy/" class="hover:text-brand-text">Privacy Policy</a>
+        <a href="/terms/" class="hover:text-brand-text">Terms</a>
+      </div>
+    </div>
+  </div>
+</footer>

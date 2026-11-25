@@ -1,0 +1,75 @@
+---
+/**
+ * Brand logo: an inline-SVG mark (a house with clean-air flow lines, echoing the
+ * client's current logo) plus the wordmark. No image file needed, so it stays
+ * crisp at any size and recolours with the theme.
+ *
+ * The house outline uses `currentColor` (set by the parent's text colour); the
+ * air-flow lines use the brand accent. Pass `showText={false}` for the mark only.
+ */
+import site from '../config/site.config.ts';
+
+export interface Props {
+  size?: number;
+  showText?: boolean;
+  class?: string;
+}
+
+const { size = 40, showText = true, class: className = '' } = Astro.props;
+const { company, logo } = site;
+---
+
+<span class={`inline-flex items-center gap-2.5 ${className}`} aria-label={logo.alt}>
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 40 40"
+    fill="none"
+    aria-hidden="true"
+    class="shrink-0"
+  >
+    <!-- house -->
+    <path
+      d="M6 19.5 L20 7.5 L34 19.5"
+      stroke="currentColor"
+      stroke-width="2.4"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M10 17.5 V31.5 H30 V17.5"
+      stroke="currentColor"
+      stroke-width="2.4"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <!-- clean-air flow lines -->
+    <path
+      d="M14 22.5 q3 -2.6 6 0 t6 0"
+      stroke="var(--color-brand-accent)"
+      stroke-width="2.2"
+      stroke-linecap="round"
+      fill="none"
+    />
+    <path
+      d="M14 27 q3 -2.6 6 0 t6 0"
+      stroke="var(--color-brand-accent)"
+      stroke-width="2.2"
+      stroke-linecap="round"
+      fill="none"
+    />
+  </svg>
+
+  {
+    showText && (
+      <span class="flex flex-col leading-none">
+        <span class="display whitespace-nowrap text-[1.1rem] leading-none tracking-wide">
+          {company.name}
+        </span>
+        <span class="mt-1 whitespace-nowrap text-[0.5625rem] font-semibold uppercase tracking-[0.2em] text-brand-muted">
+          {logo.subtitle}
+        </span>
+      </span>
+    )
+  }
+</span>

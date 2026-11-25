@@ -1,0 +1,81 @@
+---
+/**
+ * Renders a real, optimised photo when the filename exists in
+ * `src/assets/images`, otherwise a labelled Placeholder. This lets the whole
+ * site ship with placeholders now and swap to real photos later by setting the
+ * filename in `site.config.ts` -- no component changes needed.
+ */
+import { Image } from 'astro:assets';
+import Placeholder from './Placeholder.astro';
+import type { IconNameType } from '../config/schema.ts';
+
+const modules = import.meta.glob('../assets/images/*.{webp,jpg,jpeg,png,avif}', {
+  eager: true,
+  import: 'default',
+}) as Record<string, any>;
+
+const byName: Record<string, any> = {};
+for (const path in modules) {
+  const name = path.split('/').pop();
+  if (name) byName[name] = modules[path];
+}
+
+export interface Props {
+  src?: string;
+  alt: string;
+  ratio?: 'video' | 'square' | '4/3' | '3/2' | 'tall';
+  placeholderLabel?: string;
+  placeholderIcon?: IconNameType;
+  light?: boolean;
+  class?: string;
+  sizes?: string;
+  widths?: number[];
+  loading?: 'eager' | 'lazy';
+}
+
+const {
+  src = '',
+  alt,
+  ratio = '4/3',
+  placeholderLabel,
+  placeholderIcon,
+  light = false,
+  class: className = '',
+  sizes = '(min-width: 768px) 50vw, 100vw',
+  widths = [400, 800, 1200],
+  loading = 'lazy',
+} = Astro.props;
+
+const ratioMap: Record<string, string> = {
+  video: '16 / 9',
+  square: '1 / 1',
+  '4/3': '4 / 3',
+  '3/2': '3 / 2',
+  tall: '3 / 4',
+};
+
+const asset = src ? byName[src] : undefined;
+---
+
+{
+  asset ? (
+    <div class={`overflow-hidden ${className}`} style={`aspect-ratio:${ratioMap[ratio]}`}>
+      <Image
+        src={asset}
+        alt={alt}
+        widths={widths}
+        sizes={sizes}
+        loading={loading}
+        class="h-full w-full object-cover"
+      />
+    </div>
+  ) : (
+    <Placeholder
+      label={placeholderLabel ?? alt}
+      ratio={ratio}
+      icon={placeholderIcon}
+      light={light}
+      class={className}
+    />
+  )
+}

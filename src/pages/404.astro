@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import site from '../config/site.config.ts';
+import Icon from '../components/Icon.astro';
+
+const { contact } = site;
+---
+
+<BaseLayout pageKey="404" noindex>
+  <section class="flex min-h-[80vh] items-center bg-brand-bg pt-20">
+    <div class="container-x text-center">
+      <span class="display block text-[6rem] leading-none text-brand-accent sm:text-[9rem]">404</span>
+      <h1 class="heading-section mt-2 text-brand-text">Page not found</h1>
+      <p class="lead mx-auto mt-4 max-w-md">
+        The page you were looking for is not here. Let us get you back on track.
+      </p>
+      <div class="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+        <a href="/" class="btn btn-accent">Back to home</a>
+        <a href={`tel:${contact.phonePrimary.href}`} class="btn btn-outline" data-call-link>
+          <Icon name="phone" size={16} />
+          Call {contact.phonePrimary.display}
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

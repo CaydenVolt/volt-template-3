@@ -1,0 +1,43 @@
+---
+import site from '../config/site.config.ts';
+import Icon from './Icon.astro';
+import SectionHeading from './SectionHeading.astro';
+
+const { process } = site;
+const pad2 = (n: number) => String(n + 1).padStart(2, '0');
+---
+
+<section id="process" class="section-y bg-brand-light text-brand-on-light">
+  <div class="container-x">
+    <SectionHeading
+      eyebrow={process.eyebrow}
+      heading={process.heading}
+      sub={process.subheading}
+      light
+      class="reveal"
+    />
+
+    <ol class="mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-5 lg:gap-6">
+      {
+        process.steps.map((step, i) => (
+          <li class="reveal relative">
+            <div class="flex items-center gap-4 lg:block">
+              <div class="flex h-14 w-14 shrink-0 items-center justify-center border-2 border-brand-accent text-brand-accent">
+                <Icon name={step.icon} size={24} />
+              </div>
+              <span class="display text-2xl text-brand-on-light/25 lg:mt-5 lg:block">
+                {pad2(i)}
+              </span>
+            </div>
+            <h3 class="display mt-3 text-lg text-brand-on-light lg:mt-4 lg:text-xl">
+              {step.title}
+            </h3>
+            <p class="mt-2 text-sm leading-relaxed text-brand-on-light-muted">
+              {step.description}
+            </p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>

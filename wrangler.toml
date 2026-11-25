@@ -1,0 +1,41 @@
+# -----------------------------------------------------------------------------
+#  Cloudflare Workers -- static assets deployment
+# -----------------------------------------------------------------------------
+# This site is fully static. `npm run build` emits plain HTML/CSS/images into
+# `dist/`, and that folder is uploaded as Cloudflare Workers static assets.
+#
+# There is NO `main` entrypoint and NO Astro adapter: with only an `[assets]`
+# directory and no Worker script, `wrangler deploy` publishes an assets-only
+# Worker that serves the files directly. No Worker invocation is billed per
+# request for a plain asset hit.
+#
+# Deploy (after `wrangler login`):
+#   npm run build
+#   npx wrangler deploy
+#
+# The first deploy prints the preview URL:
+#   https://volt-template-3.<subdomain>.workers.dev
+# Do NOT attach the custom domain (beholdnomold.com) until the client approves
+# the preview -- see README -> "Going live".
+
+name = "volt-template-3"
+compatibility_date = "2026-11-24"
+workers_dev = true
+
+# Custom domain -- requires the domain to be active in Cloudflare DNS.
+# Uncomment and set once the client moves DNS to Cloudflare and approves launch.
+# routes = [
+#   { pattern = "beholdnomold.com", custom_domain = true },
+#   { pattern = "www.beholdnomold.com", custom_domain = true },
+# ]
+
+[assets]
+directory = "./dist"
+html_handling = "auto-trailing-slash"
+not_found_handling = "404-page"
+
+# -- Analytics: Cloudflare Zaraz loads GA4 (see README -> "Analytics"). --------
+# GA4 is loaded through Zaraz in the Cloudflare dashboard, not hardcoded here.
+# The measurement ID placeholder lives in src/config/site.config.ts ->
+# analytics.ga4MeasurementId. The site fires a `generate_lead` dataLayer event
+# on every phone-call and form submit; wire that event to the GA4 tool in Zaraz.

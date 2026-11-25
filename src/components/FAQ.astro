@@ -1,0 +1,36 @@
+---
+import site from '../config/site.config.ts';
+import Icon from './Icon.astro';
+
+const { faq } = site;
+---
+
+<section id="faq" class="section-y bg-brand-bg">
+  <div class="container-x">
+    <div class="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+      <div class="reveal">
+        {faq.eyebrow && <span class="eyebrow">{faq.eyebrow}</span>}
+        <h2 class="heading-section mt-5 text-brand-text">{faq.heading}</h2>
+        {faq.subheading && <p class="lead mt-5">{faq.subheading}</p>}
+      </div>
+
+      <div class="reveal divide-y divide-brand-text/10 border-y border-brand-text/10" data-faq>
+        {
+          faq.items.map((item) => (
+            <details class="group" name="faq">
+              <summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-5">
+                <span class="text-lg font-semibold text-brand-text">{item.question}</span>
+                <Icon
+                  name="chevron-down"
+                  size={22}
+                  class="shrink-0 text-brand-accent transition-transform duration-300 group-open:rotate-180"
+                />
+              </summary>
+              <div class="pb-5 pr-8 text-brand-muted">{item.answer}</div>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

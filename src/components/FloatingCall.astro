@@ -1,0 +1,31 @@
+---
+import site from '../config/site.config.ts';
+import Icon from './Icon.astro';
+
+const { contact } = site;
+const tel = `tel:${contact.phonePrimary.href}`;
+---
+
+<!-- Desktop: vertical call tab on the right edge -->
+<a
+  href={tel}
+  data-call-link
+  class="fixed right-0 top-1/2 z-40 hidden -translate-y-1/2 items-center gap-2 bg-brand-accent px-2.5 py-4 text-brand-accent-text transition-colors hover:bg-brand-accent-hover lg:flex"
+  style="writing-mode: vertical-rl;"
+  aria-label={`Call ${contact.phonePrimary.display}`}
+>
+  <Icon name="phone" size={16} class="rotate-90" />
+  <span class="text-[0.72rem] font-bold uppercase tracking-[0.18em]">
+    Call {contact.phonePrimary.display}
+  </span>
+</a>
+
+<!-- Mobile: floating round call button -->
+<a
+  href={tel}
+  data-call-link
+  class="fixed bottom-5 right-5 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-brand-accent text-brand-accent-text shadow-lg lg:hidden"
+  aria-label={`Call ${contact.phonePrimary.display}`}
+>
+  <Icon name="phone" size={24} />
+</a>

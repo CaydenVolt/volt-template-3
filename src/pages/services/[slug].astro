@@ -1,0 +1,136 @@
+---
+/**
+ * One SEO page per service (/services/<slug>/), generated from
+ * `services.items` in site.config.ts. Each page: location H1, real copy,
+ * "what's included", per-service FAQ, schema, and cross-links. Phone-first.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Schema from '../../components/Schema.astro';
+import PageHero from '../../components/PageHero.astro';
+import FAQAccordion from '../../components/FAQAccordion.astro';
+import Figure from '../../components/Figure.astro';
+import Icon from '../../components/Icon.astro';
+import Contact from '../../components/Contact.astro';
+import site from '../../config/site.config.ts';
+import type { ServiceItem } from '../../config/schema.ts';
+
+export function getStaticPaths() {
+  return site.services.items.map((service) => ({
+    params: { slug: service.slug },
+    props: { service },
+  }));
+}
+
+interface Props {
+  service: ServiceItem;
+}
+const { service } = Astro.props as Props;
+const { contact, offer } = site;
+const others = site.services.items.filter((s) => s.slug !== service.slug);
+---
+
+<BaseLayout title={service.metaTitle} description={service.metaDescription}>
+  <Schema slot="head" service={service} />
+
+  <PageHero
+    eyebrow={service.name}
+    icon={service.icon}
+    title={service.h1}
+    subtitle={service.shortDescription}
+    breadcrumb={[
+      { label: 'Home', href: '/' },
+      { label: 'Services', href: '/#services' },
+      { label: service.name, href: `/services/${service.slug}/` },
+    ]}
+  />
+
+  <section class="section-y bg-brand-bg">
+    <div class="container-x">
+      <div class="grid gap-10 lg:grid-cols-2 lg:gap-14">
+        <div class="reveal">
+          <Figure
+            src={service.image}
+            alt={service.imageAlt}
+            ratio="4/3"
+            class="w-full"
+            sizes="(min-width: 1024px) 50vw, 100vw"
+            widths={[480, 800, 1200]}
+            loading="eager"
+            placeholderIcon={service.icon}
+            placeholderLabel={service.name}
+          />
+        </div>
+
+        <div class="reveal">
+          <p class="lead text-brand-text/90">{service.longDescription}</p>
+
+          <h2 class="mt-9 text-xl font-bold text-brand-text">What's included</h2>
+          <ul class="mt-5 space-y-3">
+            {
+              service.includedItems.map((item) => (
+                <li class="flex items-start gap-3 text-brand-text/90">
+                  <Icon name="check-circle" size={20} class="mt-0.5 shrink-0 text-brand-accent" />
+                  <span>{item}</span>
+                </li>
+              ))
+            }
+          </ul>
+
+          {
+            offer.enabled && (
+              <div class="mt-7 flex items-start gap-3 border border-brand-accent/40 bg-brand-accent/10 p-4">
+                <Icon name="tag" size={22} class="mt-0.5 shrink-0 text-brand-accent" />
+                <div>
+                  <span class="text-[0.68rem] font-bold uppercase tracking-[0.12em] text-brand-accent">
+                    {offer.badge}
+                  </span>
+                  <p class="font-semibold text-brand-text">{offer.text}</p>
+                </div>
+              </div>
+            )
+          }
+
+          <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+            <a href={`tel:${contact.phonePrimary.href}`} class="btn btn-accent" data-call-link>
+              <Icon name="phone" size={16} />
+              Call {contact.phonePrimary.display}
+            </a>
+            <a href={`mailto:${contact.email}`} class="btn btn-outline">
+              <Icon name="mail" size={16} />
+              Email Us
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <FAQAccordion eyebrow="Questions" heading={`${service.name}: common questions`} items={service.faqs} />
+
+  <!-- Other services -->
+  <section class="section-y bg-brand-bg-alt">
+    <div class="container-x">
+      <h2 class="heading-section text-center text-brand-text">Explore our other services</h2>
+      <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          others.map((s) => (
+            <a
+              href={`/services/${s.slug}/`}
+              class="surface-card group flex items-start gap-4 p-5 transition-colors hover:border-brand-accent/50"
+            >
+              <span class="flex h-12 w-12 shrink-0 items-center justify-center bg-brand-accent/12 text-brand-accent">
+                <Icon name={s.icon} size={24} />
+              </span>
+              <span class="min-w-0">
+                <span class="block font-semibold text-brand-text">{s.name}</span>
+                <span class="mt-1 block text-sm text-brand-muted">{s.shortDescription}</span>
+              </span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <Contact />
+</BaseLayout>

@@ -1,0 +1,81 @@
+---
+import site from '../config/site.config.ts';
+import Figure from './Figure.astro';
+import Icon from './Icon.astro';
+
+const { about } = site;
+---
+
+<section id="about" class="section-y bg-brand-bg">
+  <div class="container-x">
+    <div class="grid items-start gap-12 lg:grid-cols-2 lg:gap-16">
+      <!-- Text -->
+      <div class="reveal">
+        <span class="eyebrow">{about.eyebrow}</span>
+        <h2 class="heading-section mt-5 text-brand-text">
+          {about.heading}
+          {about.headingAccent && <span class="block accent-text">{about.headingAccent}</span>}
+        </h2>
+
+        <div class="mt-6 space-y-4">
+          {about.body.map((p) => <p class="lead">{p}</p>)}
+        </div>
+
+        <ul class="mt-7 space-y-3">
+          {
+            about.points.map((point) => (
+              <li class="flex items-start gap-3">
+                <Icon name="check" size={20} class="mt-0.5 shrink-0 text-brand-accent" />
+                <span class="text-brand-text/90">{point}</span>
+              </li>
+            ))
+          }
+        </ul>
+
+        {
+          about.quote && (
+            <blockquote class="mt-8 border-l-2 border-brand-accent pl-5">
+              <p class="display text-xl leading-tight text-brand-text sm:text-2xl">
+                {about.quote}
+              </p>
+            </blockquote>
+          )
+        }
+      </div>
+
+      <!-- Image -->
+      <div class="reveal">
+        <Figure
+          src={about.image}
+          alt={about.imageAlt}
+          placeholderLabel="Team or owner photo on a job site"
+          placeholderIcon="users"
+          ratio="4/3"
+          class="w-full"
+          sizes="(min-width: 1024px) 40vw, 100vw"
+        />
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="mt-14 grid grid-cols-2 border-t border-brand-text/10 md:grid-cols-4">
+      {
+        about.stats.map((stat, i) => (
+          <div
+            class:list={[
+              'px-2 py-7 text-center md:px-6',
+              i > 0 ? 'md:border-l md:border-brand-text/10' : '',
+              i % 2 === 1 ? 'border-l border-brand-text/10 md:border-l' : '',
+              i >= 2 ? 'border-t border-brand-text/10 md:border-t-0' : '',
+            ]}
+          >
+            <div class="display text-3xl text-brand-accent sm:text-4xl">{stat.value}</div>
+            <div class="mt-1 text-[0.8rem] uppercase tracking-[0.12em] text-brand-muted">
+              {stat.label}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

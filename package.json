@@ -1,0 +1,36 @@
+{
+  "name": "volt-template-3",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Volt reusable marketing-site template (client: Behold No Mold, mold remediation, Cape Cod MA). Astro + Tailwind v4, static output, Cloudflare Workers static assets, config-driven with a Zod-validated site.config.ts. Phone-first conversion.",
+  "engines": {
+    "node": ">=20.11.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "check": "astro check",
+    "deploy": "astro build && wrangler deploy"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.3.4",
+    "sharp": "^0.35.4",
+    "tailwindcss": "^4.3.3",
+    "zod": "^3.24.1"
+  },
+  "allowScripts": {
+    "esbuild": true,
+    "sharp": true,
+    "@tailwindcss/oxide": true,
+    "workerd": true
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "typescript": "^6.0.3",
+    "wrangler": "^4.42.0"
+  }
+}

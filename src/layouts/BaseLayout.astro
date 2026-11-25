@@ -1,0 +1,121 @@
+---
+/**
+ * The document shell for every page: <head>, nav, content, footer, floating call.
+ *
+ *  1. Emits the brand palette from `site.config.ts` as CSS custom properties on
+ *     `:root`; `global.css` maps those onto Tailwind utilities, so a hex change
+ *     in the config re-skins the whole site.
+ *  2. Resolves per-page SEO: pass `pageKey` for a `seo.pages` entry, or
+ *     `title`/`description` to override; anything missing falls back to `seo`.
+ *  3. Applies the preview noindex switch (`deployment.isPreview`).
+ *
+ * GA4 is loaded via Cloudflare Zaraz (dashboard), not here. See README.
+ */
+import '../styles/global.css';
+import client, { siteUrl, isPreview } from '../config/site.config.ts';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import FloatingCall from '../components/FloatingCall.astro';
+import SiteScripts from '../components/SiteScripts.astro';
+
+export interface Props {
+  pageKey?: string;
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  noindex?: boolean;
+}
+
+const { pageKey, title: titleProp, description: descriptionProp, ogImage: ogImageProp, noindex = false } =
+  Astro.props;
+
+const { brand, seo } = client;
+const pageMeta = pageKey
+  ? (seo.pages as Record<string, { title?: string; description?: string }>)[pageKey]
+  : undefined;
+const title = titleProp ?? pageMeta?.title ?? seo.title;
+const description = descriptionProp ?? pageMeta?.description ?? seo.description;
+
+const canonical = new URL(Astro.url.pathname, siteUrl + '/').href;
+const ogImage = new URL(ogImageProp ?? seo.ogImage, siteUrl + '/').href;
+const blockIndexing = isPreview || noindex;
+
+const brandVars = [
+  `--brand-bg:${brand.bg}`,
+  `--brand-bg-alt:${brand.bgAlt}`,
+  `--brand-surface:${brand.surface}`,
+  `--brand-light:${brand.light}`,
+  `--brand-accent:${brand.accent}`,
+  `--brand-accent-hover:${brand.accentHover}`,
+  `--brand-accent-text:${brand.accentText}`,
+  `--brand-text:${brand.text}`,
+  `--brand-muted:${brand.textMuted}`,
+  `--brand-on-light:${brand.onLight}`,
+  `--brand-on-light-muted:${brand.onLightMuted}`,
+].join(';');
+---
+
+<!doctype html>
+<html lang="en-US" class="no-js">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {
+      blockIndexing && (
+        <meta name="robots" content={isPreview ? 'noindex, nofollow' : 'noindex, follow'} />
+      )
+    }
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content={brand.bg} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:site_name" content={client.company.name} />
+    <meta property="og:locale" content={seo.locale} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow:wght@400;500;600;700&display=swap"
+    />
+
+    <style is:inline set:html={`:root{${brandVars}}`}></style>
+
+    <slot name="head" />
+  </head>
+
+  <body class="flex min-h-screen flex-col bg-brand-bg text-brand-text antialiased">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-brand-accent focus:px-4 focus:py-2 focus:font-semibold focus:text-brand-accent-text"
+    >
+      Skip to content
+    </a>
+
+    <Nav />
+
+    <main id="main" class="flex-1">
+      <slot />
+    </main>
+
+    <Footer />
+    <FloatingCall />
+    <SiteScripts />
+  </body>
+</html>

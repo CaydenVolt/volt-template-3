@@ -1,0 +1,91 @@
+---
+import site from '../config/site.config.ts';
+import Icon from './Icon.astro';
+
+const { reviews } = site;
+const starPath =
+  'M12 3 14.7 8.5 20.7 9.4 16.4 13.6 17.4 19.6 12 16.8 6.6 19.6 7.6 13.6 3.3 9.4 9.3 8.5 Z';
+const ratingText = reviews.rating !== null ? reviews.rating.toFixed(1) : null;
+---
+
+<section id="reviews" class="section-y bg-brand-bg">
+  <div class="container-x">
+    <div class="grid gap-10 lg:grid-cols-[1fr_auto] lg:items-end">
+      <div class="reveal">
+        <span class="eyebrow">{reviews.eyebrow}</span>
+        <h2 class="heading-section mt-5 max-w-2xl text-brand-text">{reviews.heading}</h2>
+        {reviews.subheading && <p class="lead mt-5 max-w-xl">{reviews.subheading}</p>}
+      </div>
+
+      {
+        ratingText && (
+          <div class="reveal surface-card flex items-center gap-5 p-6">
+            <div class="text-center">
+              <div class="display text-5xl text-brand-text">{ratingText}</div>
+              <div class="mt-1 flex justify-center gap-0.5 text-brand-accent">
+                {Array.from({ length: 5 }).map(() => (
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d={starPath} />
+                  </svg>
+                ))}
+              </div>
+            </div>
+            <div class="h-14 w-px bg-brand-text/15" />
+            <div>
+              <div class="flex items-center gap-2 text-brand-text">
+                <Icon name="google" size={18} />
+                <span class="font-semibold">{reviews.platformLabel}</span>
+              </div>
+              {reviews.count !== null && (
+                <div class="mt-1 text-sm text-brand-muted">{reviews.count} reviews</div>
+              )}
+              <a
+                href={reviews.googleReviewUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-brand-accent hover:underline"
+              >
+                Read reviews
+                <Icon name="arrow-up-right" size={15} />
+              </a>
+            </div>
+          </div>
+        )
+      }
+    </div>
+
+    <div class="mt-12 grid gap-5 md:grid-cols-3">
+      {
+        reviews.items.map((review) => (
+          <blockquote class="reveal surface-card flex flex-col p-7">
+            <Icon name="quote" size={28} class="text-brand-accent/40" />
+            <div class="mt-4 flex gap-0.5 text-brand-accent">
+              {Array.from({ length: review.stars }).map(() => (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d={starPath} />
+                </svg>
+              ))}
+            </div>
+            <p class="mt-4 flex-1 text-[0.95rem] leading-relaxed text-brand-text/90">
+              {review.quote}
+            </p>
+            <footer class="mt-6 flex items-center justify-between border-t border-brand-text/10 pt-4">
+              <div>
+                <div class="font-semibold text-brand-text">{review.name}</div>
+                {review.location && (
+                  <div class="text-xs text-brand-muted">{review.location}</div>
+                )}
+              </div>
+              {review.source && (
+                <span class="flex items-center gap-1.5 text-xs text-brand-muted">
+                  <Icon name="google" size={14} />
+                  {review.source}
+                </span>
+              )}
+            </footer>
+          </blockquote>
+        ))
+      }
+    </div>
+  </div>
+</section>

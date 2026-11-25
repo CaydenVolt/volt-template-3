@@ -1,0 +1,30 @@
+---
+/**
+ * Eyebrow + heavy display heading + optional accent line + optional subheading.
+ * `light` switches text colours for use on the light section.
+ */
+export interface Props {
+  eyebrow: string;
+  heading: string;
+  accent?: string;
+  sub?: string;
+  center?: boolean;
+  light?: boolean;
+  class?: string;
+}
+
+const { eyebrow, heading, accent, sub, center = false, light = false, class: className = '' } =
+  Astro.props;
+
+const headColor = light ? 'text-brand-on-light' : 'text-brand-text';
+const subColor = light ? 'text-brand-on-light-muted' : 'text-brand-muted';
+---
+
+<div class={`${center ? 'mx-auto max-w-3xl text-center' : 'max-w-3xl'} ${className}`}>
+  <span class={`eyebrow ${center ? 'eyebrow-center' : ''}`}>{eyebrow}</span>
+  <h2 class={`heading-section mt-5 ${headColor}`}>
+    {heading}
+    {accent && <span class="block accent-text">{accent}</span>}
+  </h2>
+  {sub && <p class={`lead mt-5 ${subColor}`}>{sub}</p>}
+</div>

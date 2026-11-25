@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Schema from '../components/Schema.astro';
+import Hero from '../components/Hero.astro';
+import TrustStrip from '../components/TrustStrip.astro';
+import About from '../components/About.astro';
+import Services from '../components/Services.astro';
+import WhyChoose from '../components/WhyChoose.astro';
+import Process from '../components/Process.astro';
+import Gallery from '../components/Gallery.astro';
+import Reviews from '../components/Reviews.astro';
+import ServiceArea from '../components/ServiceArea.astro';
+import FAQ from '../components/FAQ.astro';
+import Contact from '../components/Contact.astro';
+---
+
+<BaseLayout pageKey="home">
+  <Schema slot="head" />
+  <Hero />
+  <TrustStrip />
+  <About />
+  <Services />
+  <WhyChoose />
+  <Process />
+  <Gallery />
+  <Reviews />
+  <ServiceArea />
+  <FAQ />
+  <Contact />
+</BaseLayout>

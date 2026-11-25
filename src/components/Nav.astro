@@ -1,0 +1,114 @@
+---
+/**
+ * Sticky top navigation. Transparent over the hero, then solid + hairline once
+ * scrolled (toggled by SiteScripts via `.is-scrolled`). Mobile uses a full
+ * screen overlay menu.
+ */
+import site from '../config/site.config.ts';
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+
+const { nav, hero, contact } = site;
+---
+
+<header
+  id="site-header"
+  class="fixed inset-x-0 top-0 z-50 transition-colors duration-300"
+  data-site-header
+>
+  <div class="container-x">
+    <div class="flex h-20 items-center justify-between">
+      <a href="/" class="text-brand-text" aria-label="Behold No Mold home">
+        <Logo size={38} />
+      </a>
+
+      <!-- Desktop links -->
+      <nav class="hidden items-center gap-7 xl:flex" aria-label="Primary">
+        {
+          nav.map((link) => (
+            <a
+              href={link.href}
+              class="text-[0.8125rem] font-semibold uppercase tracking-[0.1em] text-brand-text/80 transition-colors hover:text-brand-text"
+            >
+              {link.label}
+            </a>
+          ))
+        }
+      </nav>
+
+      <!-- Desktop actions -->
+      <div class="hidden items-center gap-3 xl:flex">
+        <a
+          href={`tel:${contact.phonePrimary.href}`}
+          class="flex items-center gap-2 whitespace-nowrap text-[0.8125rem] font-bold uppercase tracking-[0.08em] text-brand-text transition-colors hover:text-brand-accent"
+          data-call-link
+        >
+          <Icon name="phone" size={16} class="text-brand-accent" />
+          {contact.phonePrimary.display}
+        </a>
+        <a href={hero.ctaPrimary.href} class="btn btn-accent">Free Assessment</a>
+      </div>
+
+      <!-- Mobile toggle -->
+      <button
+        type="button"
+        class="flex items-center justify-center p-2 text-brand-text xl:hidden"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        data-menu-open
+      >
+        <Icon name="menu" size={28} />
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile overlay menu -->
+<div
+  id="mobile-menu"
+  class="fixed inset-0 z-[60] hidden flex-col bg-brand-bg xl:hidden"
+  data-mobile-menu
+>
+  <div class="container-x">
+    <div class="flex h-20 items-center justify-between">
+      <span class="text-brand-text"><Logo size={38} /></span>
+      <button
+        type="button"
+        class="flex items-center justify-center p-2 text-brand-text"
+        aria-label="Close menu"
+        data-menu-close
+      >
+        <Icon name="x" size={28} />
+      </button>
+    </div>
+  </div>
+
+  <nav class="container-x flex flex-1 flex-col justify-center gap-1 pb-24" aria-label="Mobile">
+    {
+      nav.map((link) => (
+        <a
+          href={link.href}
+          class="display border-b border-brand-text/10 py-4 text-3xl text-brand-text"
+          data-menu-link
+        >
+          {link.label}
+        </a>
+      ))
+    }
+    <div class="mt-8 flex flex-col gap-3">
+      <a href={hero.ctaPrimary.href} class="btn btn-accent w-full" data-menu-link>
+        Request a Free Assessment
+      </a>
+      <a
+        href={`tel:${contact.phonePrimary.href}`}
+        class="btn btn-outline w-full"
+        data-call-link
+        data-menu-link
+      >
+        <Icon name="phone" size={16} />
+        Call {contact.phonePrimary.display}
+      </a>
+    </div>
+  </nav>
+</div>

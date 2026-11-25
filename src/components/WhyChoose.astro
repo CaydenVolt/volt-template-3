@@ -1,0 +1,32 @@
+---
+import site from '../config/site.config.ts';
+import Icon from './Icon.astro';
+import SectionHeading from './SectionHeading.astro';
+
+const { whyChoose } = site;
+---
+
+<section id="why" class="section-y bg-brand-bg">
+  <div class="container-x">
+    <SectionHeading
+      eyebrow={whyChoose.eyebrow}
+      heading={whyChoose.heading}
+      sub={whyChoose.subheading}
+      class="reveal"
+    />
+
+    <div class="mt-12 grid gap-px overflow-hidden border border-brand-text/10 bg-brand-text/10 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        whyChoose.points.map((point) => (
+          <div class="reveal bg-brand-bg p-7 transition-colors hover:bg-brand-surface">
+            <span class="flex h-12 w-12 items-center justify-center bg-brand-accent/12 text-brand-accent">
+              <Icon name={point.icon} size={24} />
+            </span>
+            <h3 class="display mt-5 text-xl text-brand-text">{point.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-brand-muted">{point.description}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

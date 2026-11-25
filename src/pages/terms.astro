@@ -1,0 +1,48 @@
+---
+import LegalPage from '../components/LegalPage.astro';
+import site from '../config/site.config.ts';
+
+const { privacy, company } = site;
+---
+
+<LegalPage pageKey="terms" title="Terms of Service" lastUpdated={privacy.lastUpdated}>
+  <p>
+    These Terms govern your use of the {company.name} website. By using this site you agree to these
+    Terms. This is a starting template and should be reviewed by the business before launch.
+  </p>
+
+  <h2>Use of this website</h2>
+  <p>
+    The content on this site is provided for general information about our services. We work to keep
+    it accurate and up to date, but we make no guarantee that it is complete or error free.
+  </p>
+
+  <h2>Quotes and services</h2>
+  <p>
+    Any pricing, availability, or service description on this site is for general guidance. Final
+    pricing and scope are confirmed in a written quote after an assessment. Submitting the contact
+    form does not create a binding agreement.
+  </p>
+
+  <h2>Intellectual property</h2>
+  <p>
+    The {company.name} name, logo, and site content are the property of the business and may not be
+    copied or reused without permission.
+  </p>
+
+  <h2>Limitation of liability</h2>
+  <p>
+    To the extent permitted by law, {company.name} is not liable for any indirect or consequential
+    loss arising from the use of this website.
+  </p>
+
+  <h2>Contact</h2>
+  <p>
+    Questions about these Terms? Email <a href={`mailto:${privacy.contactEmail}`}>{privacy.contactEmail}</a>.
+  </p>
+
+  <p>
+    <strong>Note:</strong> {company.name} should have these Terms reviewed by a qualified
+    professional before launch.
+  </p>
+</LegalPage>

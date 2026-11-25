@@ -1,0 +1,159 @@
+---
+import site from '../config/site.config.ts';
+import Icon from './Icon.astro';
+
+const { contactSection, contact, offer } = site;
+---
+
+<section id="contact" class="section-y bg-brand-bg-alt">
+  <div class="container-x">
+    <div class="grid gap-12 lg:grid-cols-2 lg:gap-16">
+      <!-- Left: pitch + call CTA -->
+      <div class="reveal">
+        <span class="eyebrow">{contactSection.eyebrow}</span>
+        <h2 class="heading-section mt-5 text-brand-text">
+          {contactSection.heading}
+          {contactSection.headingAccent && (
+            <span class="block accent-text">{contactSection.headingAccent}</span>
+          )}
+        </h2>
+        <p class="lead mt-5 max-w-lg">{contactSection.body}</p>
+
+        {
+          offer.enabled && (
+            <div class="mt-7 flex items-start gap-3 border border-brand-accent/40 bg-brand-accent/10 p-4">
+              <Icon name="tag" size={22} class="mt-0.5 shrink-0 text-brand-accent" />
+              <div>
+                <span class="text-[0.68rem] font-bold uppercase tracking-[0.12em] text-brand-accent">
+                  {offer.badge}
+                </span>
+                <p class="font-semibold text-brand-text">{offer.text}</p>
+                {offer.finePrint && (
+                  <p class="mt-1 text-xs text-brand-muted">{offer.finePrint}</p>
+                )}
+              </div>
+            </div>
+          )
+        }
+
+        <!-- Big call CTA -->
+        <div class="mt-8">
+          {
+            contactSection.callLabel && (
+              <p class="text-[0.7rem] font-bold uppercase tracking-[0.16em] text-brand-muted">
+                {contactSection.callLabel}
+              </p>
+            )
+          }
+          <a
+            href={`tel:${contact.phonePrimary.href}`}
+            class="display mt-2 inline-block text-4xl text-brand-text transition-colors hover:text-brand-accent sm:text-5xl"
+            data-call-link
+          >
+            {contact.phonePrimary.display}
+          </a>
+          <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+            <a href={`tel:${contact.phonePrimary.href}`} class="btn btn-accent" data-call-link>
+              <Icon name="phone" size={16} />
+              Call {contact.phonePrimary.display}
+            </a>
+            <a href={`mailto:${contact.email}`} class="btn btn-outline">
+              <Icon name="mail" size={16} />
+              Email Us
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: details card -->
+      <div class="reveal">
+        <div class="surface-card p-6 sm:p-8">
+          <div class="space-y-6">
+            {
+              contact.phoneSecondary && (
+                <div class="flex items-start gap-4">
+                  <span class="flex h-11 w-11 shrink-0 items-center justify-center bg-brand-accent/12 text-brand-accent">
+                    <Icon name="phone" size={20} />
+                  </span>
+                  <div>
+                    <div class="text-[0.7rem] font-bold uppercase tracking-[0.14em] text-brand-muted">
+                      Also reach us at
+                    </div>
+                    <a
+                      href={`tel:${contact.phoneSecondary.href}`}
+                      class="text-lg font-semibold text-brand-text hover:text-brand-accent"
+                      data-call-link
+                    >
+                      {contact.phoneSecondary.display}
+                    </a>
+                  </div>
+                </div>
+              )
+            }
+
+            <div class="flex items-start gap-4">
+              <span class="flex h-11 w-11 shrink-0 items-center justify-center bg-brand-accent/12 text-brand-accent">
+                <Icon name="mail" size={20} />
+              </span>
+              <div>
+                <div class="text-[0.7rem] font-bold uppercase tracking-[0.14em] text-brand-muted">Email</div>
+                <a
+                  href={`mailto:${contact.email}`}
+                  class="break-all font-semibold text-brand-text hover:text-brand-accent"
+                >
+                  {contact.email}
+                </a>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4">
+              <span class="flex h-11 w-11 shrink-0 items-center justify-center bg-brand-accent/12 text-brand-accent">
+                <Icon name="map-pin" size={20} />
+              </span>
+              <div>
+                <div class="text-[0.7rem] font-bold uppercase tracking-[0.14em] text-brand-muted">Based in</div>
+                <p class="text-brand-text">
+                  {contact.addressLine}, {contact.city}, {contact.region} {contact.postalCode}
+                </p>
+                {
+                  contact.mapUrl && (
+                    <a
+                      href={contact.mapUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="mt-1 inline-flex items-center gap-1 text-sm font-semibold text-brand-accent hover:underline"
+                    >
+                      Get directions
+                      <Icon name="arrow-up-right" size={15} />
+                    </a>
+                  )
+                }
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4">
+              <span class="flex h-11 w-11 shrink-0 items-center justify-center bg-brand-accent/12 text-brand-accent">
+                <Icon name="clock" size={20} />
+              </span>
+              <div>
+                <div class="text-[0.7rem] font-bold uppercase tracking-[0.14em] text-brand-muted">Hours</div>
+                {
+                  contact.hours.map((h) => (
+                    <p class="text-sm text-brand-text/90">
+                      <span class="text-brand-muted">{h.days}:</span> {h.hours}
+                    </p>
+                  ))
+                }
+                {
+                  contact.emergencyNote && (
+                    <p class="mt-1 text-sm font-medium text-brand-accent">{contact.emergencyNote}</p>
+                  )
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

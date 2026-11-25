@@ -1,0 +1,66 @@
+---
+/**
+ * Compact hero band for interior pages (dark theme), with breadcrumb + H1.
+ * Mirrors the home hero's look: dark band, accent air-flow watermark.
+ */
+import Icon from './Icon.astro';
+import type { IconNameType } from '../config/schema.ts';
+
+export interface Props {
+  eyebrow?: string;
+  title: string;
+  subtitle?: string;
+  icon?: IconNameType;
+  breadcrumb?: { label: string; href: string }[];
+}
+const { eyebrow, title, subtitle, icon, breadcrumb } = Astro.props;
+---
+
+<section class="relative overflow-hidden bg-brand-bg-alt pt-28">
+  <!-- Faint air-flow watermark (flat, low opacity) -->
+  <svg
+    class="pointer-events-none absolute -right-10 top-4 h-[34rem] w-[34rem] text-brand-accent/[0.05]"
+    viewBox="0 0 200 200"
+    fill="none"
+    aria-hidden="true"
+  >
+    <path d="M10 70 q30 -24 60 0 t60 0 t60 0" stroke="currentColor" stroke-width="3" />
+    <path d="M10 100 q30 -24 60 0 t60 0 t60 0" stroke="currentColor" stroke-width="3" />
+    <path d="M10 130 q30 -24 60 0 t60 0 t60 0" stroke="currentColor" stroke-width="3" />
+  </svg>
+
+  <div class="container-x relative py-14 sm:py-20">
+    {
+      breadcrumb && (
+        <nav aria-label="Breadcrumb" class="mb-5">
+          <ol class="flex flex-wrap items-center gap-1.5 text-xs text-brand-muted">
+            {breadcrumb.map((crumb, i) => (
+              <li class="flex items-center gap-1.5">
+                {i > 0 && <span aria-hidden="true">/</span>}
+                {i < breadcrumb.length - 1 ? (
+                  <a href={crumb.href} class="transition-colors hover:text-brand-accent">
+                    {crumb.label}
+                  </a>
+                ) : (
+                  <span class="text-brand-text/80" aria-current="page">
+                    {crumb.label}
+                  </span>
+                )}
+              </li>
+            ))}
+          </ol>
+        </nav>
+      )
+    }
+    {
+      eyebrow && (
+        <span class="eyebrow inline-flex items-center gap-2">
+          {icon && <Icon name={icon} size={16} class="text-brand-accent" />}
+          {eyebrow}
+        </span>
+      )
+    }
+    <h1 class="heading-xl mt-5 max-w-3xl text-brand-text">{title}</h1>
+    {subtitle && <p class="lead mt-5 max-w-2xl text-brand-text/85">{subtitle}</p>}
+  </div>
+</section>
