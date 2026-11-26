@@ -3,7 +3,7 @@ import site from '../config/site.config.ts';
 import Figure from './Figure.astro';
 import Icon from './Icon.astro';
 
-const { hero } = site;
+const { hero, contactSection } = site;
 ---
 
 <section id="top" class="relative flex min-h-[90svh] items-center overflow-hidden bg-brand-bg">
@@ -38,7 +38,8 @@ const { hero } = site;
   </svg>
 
   <div class="container-x relative w-full pb-20 pt-28">
-    <div class="max-w-3xl">
+    <div class="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
+      <div class="max-w-2xl">
       <span class="eyebrow">{hero.eyebrow}</span>
 
       <h1 class="heading-xl mt-6 text-brand-text">
@@ -73,6 +74,20 @@ const { hero } = site;
           ))
         }
       </ul>
+      </div>
+
+      {
+        contactSection.leadForm && (
+          <div class="reveal w-full lg:justify-self-end" id="quote">
+            <div class="surface-card p-5 shadow-2xl sm:p-7">
+              <div
+                data-inflowave-form={contactSection.leadForm.formId}
+                data-inflowave-type="inline"
+              />
+            </div>
+          </div>
+        )
+      }
     </div>
   </div>
 

@@ -2,6 +2,11 @@
 import site from '../config/site.config.ts';
 import Icon from './Icon.astro';
 
+export interface Props {
+  /** Hide the embedded lead form (e.g. on the home page, where the hero already shows it). */
+  showLeadForm?: boolean;
+}
+const { showLeadForm = true } = Astro.props;
 const { contactSection, contact, offer } = site;
 ---
 
@@ -37,7 +42,7 @@ const { contactSection, contact, offer } = site;
         }
 
         {
-          contactSection.leadForm && (
+          showLeadForm && contactSection.leadForm && (
             <div class="mt-8">
               {contactSection.leadForm.label && (
                 <p class="text-[0.7rem] font-bold uppercase tracking-[0.16em] text-brand-muted">
@@ -45,12 +50,13 @@ const { contactSection, contact, offer } = site;
                 </p>
               )}
               <div class="mt-3 max-w-xl">
-                <div
-                  data-inflowave-form={contactSection.leadForm.formId}
-                  data-inflowave-type="inline"
-                />
+                <div class="surface-card p-5 sm:p-6">
+                  <div
+                    data-inflowave-form={contactSection.leadForm.formId}
+                    data-inflowave-type="inline"
+                  />
+                </div>
               </div>
-              <script is:inline defer src="https://app.inflowave.io/forms/embed.js" />
             </div>
           )
         }

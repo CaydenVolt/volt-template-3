@@ -585,6 +585,7 @@ const config: SiteConfig = {
       'Marion',
     ],
     note: 'Do not see your town? Give us a call. If you are on the Cape or the South Shore, we can help.',
+    mapEmbedSrc: 'https://www.google.com/maps?q=Buzzards+Bay,+MA&z=9&output=embed',
   },
 
   /* -- FAQ ------------------------------------------------------------------ */

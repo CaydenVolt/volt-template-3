@@ -37,12 +37,27 @@ const { serviceArea, hero } = site;
       </div>
 
       <div class="reveal">
-        <Placeholder
-          label="Service-area map of Cape Cod and the South Shore"
-          icon="map-pin"
-          ratio="4/3"
-          class="w-full"
-        />
+        {
+          serviceArea.mapEmbedSrc ? (
+            <div class="overflow-hidden border border-brand-text/10" style="aspect-ratio: 4 / 3">
+              <iframe
+                src={serviceArea.mapEmbedSrc}
+                title="Service area map: Cape Cod and the South Shore"
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                class="h-full w-full"
+                style="border: 0"
+              />
+            </div>
+          ) : (
+            <Placeholder
+              label="Service-area map of Cape Cod and the South Shore"
+              icon="map-pin"
+              ratio="4/3"
+              class="w-full"
+            />
+          )
+        }
       </div>
     </div>
   </div>

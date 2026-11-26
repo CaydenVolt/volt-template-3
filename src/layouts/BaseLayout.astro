@@ -117,5 +117,10 @@ const brandVars = [
     <Footer />
     <FloatingCall />
     <SiteScripts />
+    {
+      client.contactSection.leadForm && (
+        <script is:inline defer src="https://app.inflowave.io/forms/embed.js" />
+      )
+    }
   </body>
 </html>

@@ -281,6 +281,8 @@ const serviceArea = z.object({
   subheading: nonEmpty,
   towns: z.array(nonEmpty).min(1),
   note: z.string().optional(),
+  /** Optional map embed URL (iframe src) for the service area; '' / omitted -> placeholder. */
+  mapEmbedSrc: z.string().optional(),
 });
 
 const offer = z.object({
