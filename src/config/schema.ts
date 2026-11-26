@@ -298,6 +298,10 @@ const contactSection = z.object({
   body: nonEmpty,
   /** Short call-to-action under the phone number, e.g. "Call for a free assessment". */
   callLabel: z.string().optional(),
+  /** Optional embedded lead form (Inflowave) shown as the main CTA above the call. */
+  leadForm: z
+    .object({ formId: nonEmpty, label: z.string().optional() })
+    .optional(),
 });
 
 /* -- analytics / SEO / privacy --------------------------------------------- */

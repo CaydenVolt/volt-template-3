@@ -637,11 +637,15 @@ const config: SiteConfig = {
   /* -- Contact section / final CTA (phone-first, no form) ------------------- */
   contactSection: {
     eyebrow: 'Get in touch',
-    heading: 'CALL FOR YOUR FREE',
+    heading: 'GET YOUR FREE',
     headingAccent: 'MOLD ASSESSMENT.',
     body:
-      'Give us a call and tell us about your mold issue. We will talk it through, set up your free assessment, and get you a clear, fair quote. Same-day service is available for urgent situations.',
-    callLabel: 'Call for a free assessment',
+      'Tell us about your mold issue and we will set up your free assessment and a clear, fair quote. Prefer to talk? Call us anytime, and same-day service is available for urgent situations.',
+    callLabel: 'Or call us directly',
+    leadForm: {
+      formId: '716af00c-4f81-4f8b-8530-5524dabc432a',
+      label: 'Request your free assessment',
+    },
   },
 
   /* -- Analytics ------------------------------------------------------------ */
